@@ -5,7 +5,8 @@ import NotesContainer from './components/notesContainer.jsx';
 
 
 let customStyle = {
-    fontFamily : " 'Lacquer', serif",
+
+    fontFamily : " 'Quicksand', serif",
 }
 
 export default function App(){

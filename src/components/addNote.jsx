@@ -37,9 +37,9 @@ export default function AddNote(props){
                           value={note.content}
                           ></textarea>
                 <button style={{transform : "translateY(50%)"}} 
-                        className="absolute right-0 bottom-0 mr-4 w-10 h-10 bg-green-500 rounded-full" 
+                        className="absolute right-0 bottom-0 mr-4 w-10 h-10 bg-green-500 rounded-full text-xs font-bold hover:bg-green-600" 
                         type="submit"
-                        >Add</button>
+                        >ADD</button>
             </form>
         </div>
 

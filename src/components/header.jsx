@@ -16,7 +16,7 @@ function log(){
 
 export default function Header(){
     return(
-        <header className="bg-yellow-500 shadow-lg">
+        <header className="bg-yellow-500 shadow-lg font-bold">
             <nav className="w-4/5 mx-auto py-8 flex justify-between items-center">
                 <a href="/" className="text-2xl text-white">Keeper</a>
                 <div>

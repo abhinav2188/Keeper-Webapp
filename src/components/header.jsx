@@ -1,11 +1,12 @@
 import React from 'react'
 import Login from './login.jsx';
+import LoggedIn from './loggedIn.jsx';
 
 let islogged = true;
 function log(){
     if(islogged){
         return(
-            <p>User@email.com</p>
+            <LoggedIn name="username" avatarUrl="https://picsum.photos/200" />
         );
     }else{
         return (

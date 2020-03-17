@@ -43,7 +43,7 @@ export default function App(){
         {
             window.sessionStorage.getItem('userId')? 
             <UserNotesContainer />:
-            <DefaultNotesContainer />
+            <DefaultNotesContainer uid="1234"/>
 
         }
         <Footer />

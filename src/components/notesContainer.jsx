@@ -31,10 +31,12 @@ export class UserNotesContainer extends React.Component{
         super(props);
         this.state = {
             notes : [],
+            uid: this.props.uid
         }
     }
     fetchNotes(){
         let uid = window.sessionStorage.getItem("userId");
+        console.log(this.props);
         axios.get('http://localhost:5000/notes',{
             params : {
                 id : uid
@@ -64,8 +66,22 @@ export class UserNotesContainer extends React.Component{
         }).catch( (error) => {
             console.log(error.response);
         });
-        this.fetchNotes();
     }
+
+    deleteNote(id){
+        console.log("note id",id);
+        axios.delete('http://localhost:5000/deleteNote',{
+            params : {
+                userId : window.sessionStorage.getItem('userId'),
+                noteId : id
+            }
+        }).then( (response) => {
+            console.log(response.data);
+        }).catch( (error) => {
+            console.log(error.response);
+        });
+    }
+
     static getDerivedStateFromProps(props,state){
         console.log('getDerived');
         return state; 
@@ -78,7 +94,7 @@ export class UserNotesContainer extends React.Component{
             <div>
             <AddNote onAdd={this.addNote}/>
             <div className="flex p-6 flex-wrap items-start">
-                {this.state.notes.map((note,index) => (<NoteItem key={index} id={index} title={note.title} content={note.content}/>) )}
+                {this.state.notes.map(note => (<NoteItem key={note._id} id={note._id} title={note.title} content={note.content} onDelete={this.deleteNote}/>) )}
             </div>
         </div>
 

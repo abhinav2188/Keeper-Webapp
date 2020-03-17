@@ -20,7 +20,7 @@ export default function AddNote(props){
     }
 
     return(
-        <div className="bg-white rounded-lg shadow-lg mx-auto m-4 p-2" style={{width:"28rem"}} onBlur={console.log('yo!',flag)}>
+        <div className="bg-white rounded-lg shadow-lg mx-auto m-4 p-2" style={{width:"28rem"}}>
             <form className="w-full h-full flex flex-col relative" 
                   action="#"
                   onSubmit={handleSubmit}

@@ -31,7 +31,6 @@ export class UserNotesContainer extends React.Component{
         super(props);
         this.state = {
             notes : [],
-            uid: this.props.uid
         }
     }
     fetchNotes(){

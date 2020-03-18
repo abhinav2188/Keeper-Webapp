@@ -17,10 +17,14 @@ export default function Login(props){
     }
     return(
         <div>
-            <form className="flex" onSubmit={handleSubmit}>
-                <input className="mx-1 p-1" type="email" placeholder="enter email" name="email" value={user.email} onChange={handleChange}/>
-                <input className="mx-1 p-1 " type="password" placeholder="enter password" name="password" value={user.password} onChange={handleChange}/>
-                <button className="mx-2 p-1 border-white hover:text-white" type="submit" onClick={handleSubmit}>Login</button>
+            <form className="flex flex-col w-1/4 mx-auto border shadow-lg rounded-lg p-6 mt-12" onSubmit={handleSubmit}>
+                <input className="px-2 py-3 border-b rounded-t" type="email" placeholder="enter email" name="email" value={user.email} 
+                onChange={handleChange}/>
+                <input className="px-2 py-3 border-b" type="password" placeholder="enter password" name="password" value={user.password} 
+                onChange={handleChange}/>
+                <button className="mt-4 p-1 w-32 border border-white hover:text-white self-center rounded" type="submit" 
+                onClick={handleSubmit}>Login</button>
+            
             </form>
         </div>
     );

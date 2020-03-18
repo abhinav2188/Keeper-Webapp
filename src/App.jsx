@@ -2,6 +2,9 @@ import React from 'react';
 import Header from './components/header.jsx';
 import Footer from './components/footer.jsx';
 import {DefaultNotesContainer,UserNotesContainer} from './components/notesContainer.jsx';
+import Register from './components/register.jsx';
+import Login from './components/login.jsx';
+import {loginService,registerService} from './components/services/logServices.jsx';
 const axios = require('axios');
 
 
@@ -37,15 +40,30 @@ export function Api(){
 }
 
 export default function App(){
+    const [activeTab,setActiveTab] = React.useState('home');
+    const [token,setToken] = React.useState(window.sessionStorage.getItem('userId'));
+    console.log(token);
+    console.log(activeTab);
     return(
     <div className="flex flex-col" style={customStyle}>
-        <Header />
-        {
-            window.sessionStorage.getItem('userId')? 
-            <UserNotesContainer />:
-            <DefaultNotesContainer uid="1234"/>
+        <Header active={activeTab} setActive={setActiveTab}  />
 
+        {
+        (activeTab=="home") && (window.sessionStorage.getItem('userId')? 
+        <UserNotesContainer   />:
+        <DefaultNotesContainer uid="1234"/>) 
         }
+        
+        {
+        activeTab=="register" && 
+        <Register onRegister={registerService}  />
+        }
+
+        {
+        activeTab=="login" && 
+        <Login onLogin={loginService}  />
+        }
+
         <Footer />
     </div>
     );

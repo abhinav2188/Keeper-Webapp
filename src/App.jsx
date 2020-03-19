@@ -56,12 +56,12 @@ export default function App(){
         
         {
         activeTab=="register" && 
-        <Register onRegister={registerService}  />
+        <Register onRegister={registerService} active={activeTab} setActive={setActiveTab}  />
         }
 
         {
         activeTab=="login" && 
-        <Login onLogin={loginService}  />
+        <Login onLogin={loginService} active={activeTab} setActive={setActiveTab}  />
         }
 
         <Footer />

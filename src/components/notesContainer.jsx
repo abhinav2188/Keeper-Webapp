@@ -1,7 +1,6 @@
 import React,{useState} from 'react';
 import NoteItem from './note.jsx';
 import AddNote from './addNote.jsx';
-import { responsiveFontSizes } from '@material-ui/core';
 
 const axios = require('axios');
 

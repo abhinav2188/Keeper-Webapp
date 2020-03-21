@@ -89,12 +89,12 @@ export class UserNotesContainer extends React.Component{
     }
     render(){
         return(
-            <div>
+            <div className="my-8">
             <AddNote onAdd={this.addNote}/>
             <div className="flex p-6 flex-wrap items-start">
                 {this.state.notes.map(note => (<NoteItem key={note._id} id={note._id} title={note.title} content={note.content} onDelete={this.deleteNote}/>) )}
             </div>
-        </div>
+            </div>
 
         );
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import Logo from '../assets/logo.svg';
 
 export default function Login(props){
     let [user, setUser] = React.useState({
@@ -16,7 +17,9 @@ export default function Login(props){
         props.onLogin(user);
     }
     return(
-        <div className="mt-8">
+        <div className="my-8">
+            <img src={Logo} className="mx-auto h-16"></img>
+
             <h1 className="text-center text-2xl my-4">Login to Keeper</h1>
             <form className="flex flex-col max-w-sm mx-auto border shadow-lg rounded-lg p-6 my-4 text-sm bg-white" onSubmit={handleSubmit}>
                 <label for="email" className="mb-1 required">Email address</label>

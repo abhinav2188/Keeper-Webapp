@@ -45,9 +45,10 @@ export default function App(){
     console.log(token);
     console.log(activeTab);
     return(
-    <div className="flex flex-col" style={customStyle}>
+    <div className="flex flex-col min-h-screen" style={customStyle}>
         <Header active={activeTab} setActive={setActiveTab}  />
 
+        <div className="flex-grow">
         {
         (activeTab=="home") && (window.sessionStorage.getItem('userId')? 
         <UserNotesContainer   />:
@@ -63,7 +64,7 @@ export default function App(){
         activeTab=="login" && 
         <Login onLogin={loginService} active={activeTab} setActive={setActiveTab}  />
         }
-
+        </div>
         <Footer />
     </div>
     );

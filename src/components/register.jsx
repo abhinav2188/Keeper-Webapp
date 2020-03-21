@@ -1,4 +1,5 @@
 import React from 'react';
+import Logo from '../assets/logo.svg';
 
 export default function Register(props){
     let [user, setUser] = React.useState({
@@ -64,8 +65,15 @@ export default function Register(props){
     }
 
     return(
-        <div className="mt-8">
-            <h1 className="text-center text-2xl my-4">Sign up to Keeper</h1>
+        <div className="my-8 flex w-2/3 mx-auto items-center">
+        <div className="w-1/2 flex flex-col items-center px-16">
+            <img src={Logo} className="mx-auto h-24"></img>
+            <h1 className="text-4xl my-4">Keeper</h1>
+            <p className="text-center ">Keeper is an simple, secure, online notes keeping app.
+            Keep your notes online, reach out to them anytime</p>
+        </div>
+        <div className="w-1/2">
+        <h1 className="text-center text-2xl my-4">Sign up to Keeper</h1>
             <form className="flex flex-col max-w-sm mx-auto border shadow-lg rounded-lg p-6 my-4 text-sm bg-white" onSubmit={handleSubmit}>
 
                 <label for="email" className="mb-1 required">Email address</label>
@@ -94,21 +102,8 @@ export default function Register(props){
                     <button onClick={()=>props.setActive('login')} className="text-blue-500 hover:text-blue-600 hover:underline">Login here</button>
                 </p>
             </div>
+
+        </div>
         </div>
     );
 }
-        {/* <div>
-            <form className="flex flex-col w-1/4 mx-auto border shadow-lg rounded-lg p-6 mt-12" onSubmit={handleSubmit}>
-                <input className="px-2 py-3 border-b rounded-t" type="email" placeholder="enter email" name="email" value={user.email} 
-                onChange={handleChange}/>
-                <input className="px-2 py-3 border-b" type="text" placeholder="enter username" name="username" value={user.username} 
-                onChange={handleChange}/>
-                <input className="px-2 py-3 border-b" type="password" placeholder="enter password" name="password" value={user.password} 
-                onChange={handleChange}/>
-                <input className="px-2 py-3 border-b rounded-b" type="password" placeholder="confirm password" name="confirmPassword" value={user.confirmPassword} 
-                onChange={handleChange}/>
-                {displayHint.map( hint => <p className="text-red-600 font-bold text-xs px-2">{hint}</p>)}
-                <button className="mt-4 p-1 w-32 border border-white hover:text-white self-center rounded" type="submit" 
-                onClick={handleSubmit}>Register</button>
-            </form>
-        </div> */}

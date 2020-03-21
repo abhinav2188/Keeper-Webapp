@@ -6,10 +6,22 @@ export default function Login(props){
         email:"",
         password:""
     });
+    let [displayHint,setDisplayHint] = React.useState([]);
+    function validateEmail(value){
+        let err=[];
+        let emailExp = /[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+/;
+        if(!value)
+        err.push("email is a required field");
+        if(!emailExp.test(value))
+        err.push('email should contain "@" and "."');
+        return err;
+    }
     function handleChange(event){
         let name = event.target.name;
         let value = event.target.value;
         setUser( prevState => ({ ...prevState, [name] : value }));
+        if(name=="email") 
+        setDisplayHint(validateEmail(value));
     }
     function handleSubmit(event){
         event.preventDefault();
@@ -27,6 +39,7 @@ export default function Login(props){
                 <label for="password" className="mb-1 required">Password</label>
                 <input className="border p-1 rounded-sm mb-4" type="password" name="password" value={user.password} 
                 onChange={handleChange}/>
+                {displayHint.map( hint => <p className="text-red-600 font-bold text-xs px-2">{hint}</p>)}
                 <button className="mt-4 p-1 text-white border border-gray-600 bg-green-500 hover:shadow-md hover:bg-green-600 rounded-sm" type="submit" 
                 onClick={handleSubmit}>Login</button>
             </form>

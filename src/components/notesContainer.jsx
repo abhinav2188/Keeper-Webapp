@@ -4,6 +4,11 @@ import AddNote from './addNote.jsx';
 
 const axios = require('axios');
 
+let notesConainterStyle = {
+        columnCount: 4,
+        columnGap: "1rem"
+}
+
 export function DefaultNotesContainer(props){
     const [notesList, setNotesList] = useState([]);
     function handleAddNote(newNote){
@@ -15,16 +20,15 @@ export function DefaultNotesContainer(props){
     }
 
     return(
-        <div class="px-2">
+        <div className="my-8">
             <AddNote onAdd={handleAddNote}/>
-            <div className="flex p-6 flex-wrap items-start">
+            <div style={notesConainterStyle} className="my-8">
                 {notesList.map((note,index) => (<NoteItem key={index} id={index} title={note.title} content={note.content} onDelete={handleOnDelete}/>) )}
             </div>
         </div>
     );
 
 }
-
 export class UserNotesContainer extends React.Component{
     constructor(props){
         super(props);
@@ -91,7 +95,7 @@ export class UserNotesContainer extends React.Component{
         return(
             <div className="my-8">
             <AddNote onAdd={this.addNote}/>
-            <div className="flex p-6 flex-wrap items-start">
+            <div className="my-8 md:px-10 px-2 flex flex-wrap items-start" >
                 {this.state.notes.map(note => (<NoteItem key={note._id} id={note._id} title={note.title} content={note.content} onDelete={this.deleteNote}/>) )}
             </div>
             </div>

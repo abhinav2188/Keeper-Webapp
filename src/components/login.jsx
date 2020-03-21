@@ -17,11 +17,10 @@ export default function Login(props){
         props.onLogin(user);
     }
     return(
-        <div className="my-8">
-            <img src={Logo} className="mx-auto h-16"></img>
-
-            <h1 className="text-center text-2xl my-4">Login to Keeper</h1>
-            <form className="flex flex-col max-w-sm mx-auto border shadow-lg rounded-lg p-6 my-4 text-sm bg-white" onSubmit={handleSubmit}>
+        <div className="my-8 md:px-0 px-2">
+            <img src={Logo} className="mx-auto h-16 md:mt-0 mt-6"></img>
+            <h1 className="text-center text-2xl md:my-4 mb-6">Login to Keeper</h1>
+            <form className="flex flex-col max-w-sm mx-auto border shadow-lg rounded-lg p-6 my-4 text-sm bg-white md:my-0 my-6" onSubmit={handleSubmit}>
                 <label for="email" className="mb-1 required">Email address</label>
                 <input className="border rounded-sm p-1 mb-4" type="email" name="email" value={user.email} 
                 onChange={handleChange}/>

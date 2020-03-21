@@ -15,7 +15,7 @@ export function DefaultNotesContainer(props){
     }
 
     return(
-        <div>
+        <div class="px-2">
             <AddNote onAdd={handleAddNote}/>
             <div className="flex p-6 flex-wrap items-start">
                 {notesList.map((note,index) => (<NoteItem key={index} id={index} title={note.title} content={note.content} onDelete={handleOnDelete}/>) )}

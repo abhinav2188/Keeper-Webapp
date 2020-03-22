@@ -1,13 +1,14 @@
 import React,{useState} from 'react';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AuthContext from '../context/authContext';
 
 export default function LoggedIn(props){
+    const authContext = React.useContext(AuthContext);
     const [isExpanded,setExpanded] = useState(false);
     function logout(event){
         event.preventDefault();
-        console.log('logout');
-        let uid = window.sessionStorage.getItem('userId');
-        props.onLogout(uid);
+        authContext.setToken(null);
+        window.sessionStorage.removeItem("userId");
     }
     return(
         <div className="flex items-center">
@@ -21,7 +22,6 @@ export default function LoggedIn(props){
                     <a className="m-1" onClick={logout}><ExitToAppIcon /></a> 
                 </div>
             }
-
-        </div>
+       </div>
     );
 }

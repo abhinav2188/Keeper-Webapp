@@ -1,6 +1,7 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import NoteItem from './note.jsx';
 import AddNote from './addNote.jsx';
+import AuthContext from '../context/authContext';
 
 const axios = require('axios');
 
@@ -9,98 +10,76 @@ let notesConainterStyle = {
         columnGap: "1rem"
 }
 
-export function DefaultNotesContainer(props){
+export default function NotesContainer(){
     const [notesList, setNotesList] = useState([]);
+    const authContext = React.useContext(AuthContext);
+
+    function fetchNotes(){
+        axios.get('http://localhost:5000/notes',{
+            params : {
+                id : authContext.token
+            }
+        }).then( (response) => {
+            setNotesList(response.data.notes);
+        }).catch( (error) => {
+            alert(error.response.data.errorMsg);
+        });
+    }
+
+    useEffect( ()=> {
+        if(authContext.token){
+        fetchNotes();
+        }else
+        setNotesList([]);
+    },[authContext.token]);
+
     function handleAddNote(newNote){
         setNotesList(prevList => ([...prevList,newNote]) );
+        if(authContext.token){
+            let noteData = new URLSearchParams();
+            noteData.append('content',newNote.content);
+            noteData.append('title',newNote.title);
+            axios({
+                method:'POST',
+                url : 'http://localhost:5000/addnote',
+                params : {
+                    id: authContext.token
+                },
+                data : noteData
+            }).then( (response) => {
+                alert(response.data.msg);
+            }).catch( (error) => {
+                alert(error.response.data.errorMsg);
+            });
+    
+        }
     }
     function handleOnDelete(id){
         console.log('delete',id);
         setNotesList(prevList => ( prevList.filter( (note,index) => (index !== id))) );
+        if(authContext.token){
+            setNotesList(prevList => ( prevList.filter( note => (note._id !== id))) );
+            axios.delete('http://localhost:5000/deleteNote',{
+                params : {
+                    userId : authContext.token,
+                    noteId : id
+                }
+            }).then( (response) => {
+                alert(response.data.msg);
+            }).catch( (error) => {
+                alert(error.response.data.errorMsg);
+            });
+        }
+
     }
 
     return(
         <div className="my-8">
             <AddNote onAdd={handleAddNote}/>
-            <div style={notesConainterStyle} className="my-8">
-                {notesList.map((note,index) => (<NoteItem key={index} id={index} title={note.title} content={note.content} onDelete={handleOnDelete}/>) )}
+            <div className="my-8 flex items-start flex-wrap">
+                {notesList.slice(0).reverse().map((note,index) => (<NoteItem key={index} id={authContext.token ? note._id : index} title={note.title} content={note.content} onDelete={handleOnDelete}/>) )}
             </div>
         </div>
     );
 
-}
-export class UserNotesContainer extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            notes : [],
-        }
-    }
-    fetchNotes(){
-        let uid = window.sessionStorage.getItem("userId");
-        console.log(this.props);
-        axios.get('http://localhost:5000/notes',{
-            params : {
-                id : uid
-            }
-        }).then( (response) => {
-            console.log(response.data.notes);
-            this.setState({
-                notes : response.data.notes
-            })
-        }).catch( (error) => {
-            console.log(error.response);
-        });
-    }
-    addNote(note){
-        const datas = new URLSearchParams();
-        datas.append('content',note.content);
-        datas.append('title',note.title);
-        axios({
-            method:'POST',
-            url : 'http://localhost:5000/addnote',
-            params : {
-                id: window.sessionStorage.getItem("userId")
-            },
-            data : datas
-        }).then( (response) => {
-            console.log(response);
-        }).catch( (error) => {
-            console.log(error.response);
-        });
-    }
-
-    deleteNote(id){
-        console.log("note id",id);
-        axios.delete('http://localhost:5000/deleteNote',{
-            params : {
-                userId : window.sessionStorage.getItem('userId'),
-                noteId : id
-            }
-        }).then( (response) => {
-            console.log(response.data);
-        }).catch( (error) => {
-            console.log(error.response);
-        });
-    }
-
-    static getDerivedStateFromProps(props,state){
-        console.log('getDerived');
-        return state; 
-    }
-    componentDidMount(){
-        this.fetchNotes();
-    }
-    render(){
-        return(
-            <div className="my-8">
-            <AddNote onAdd={this.addNote}/>
-            <div className="my-8 md:px-10 px-2 flex flex-wrap items-start" >
-                {this.state.notes.map(note => (<NoteItem key={note._id} id={note._id} title={note.title} content={note.content} onDelete={this.deleteNote}/>) )}
-            </div>
-            </div>
-
-        );
-
-    }
-}
+} 

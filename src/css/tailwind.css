@@ -13263,6 +13263,11 @@ body{
   background-color: #f1f1f1;
 }
 
+.required::after{
+  content:"*";
+  color:red;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;

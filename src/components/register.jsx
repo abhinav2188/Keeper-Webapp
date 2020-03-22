@@ -1,7 +1,10 @@
 import React from 'react';
 import Logo from '../assets/logo.svg';
+import ActiveContext from "../context/activeContext";
+import authContext from '../context/authContext';
 
 export default function Register(props){
+    const activeContext = React.useContext(ActiveContext);
     let [user, setUser] = React.useState({
         email:"",
         password:"",
@@ -99,7 +102,7 @@ export default function Register(props){
             </form>
             <div className="max-w-sm mx-auto p-3 border border-gray-400 text-sm text-center my-4 rounded-lg">
                 <p>Already have account? 
-                    <button onClick={()=>props.setActive('login')} className="text-blue-500 hover:text-blue-600 hover:underline">Login here</button>
+                    <button onClick={()=>activeContext.setActive('login')} className="text-blue-500 hover:text-blue-600 hover:underline">Login here</button>
                 </p>
             </div>
 

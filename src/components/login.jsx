@@ -1,5 +1,6 @@
 import React from 'react';
 import Logo from '../assets/logo.svg';
+import ActiveContext from "../context/activeContext";
 
 export default function Login(props){
     let [user, setUser] = React.useState({
@@ -7,6 +8,7 @@ export default function Login(props){
         password:""
     });
     let [displayHint,setDisplayHint] = React.useState([]);
+    const activeContext = React.useContext(ActiveContext);
     function validateEmail(value){
         let err=[];
         let emailExp = /[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+/;
@@ -45,7 +47,7 @@ export default function Login(props){
             </form>
             <div className="max-w-sm mx-auto p-3 border border-gray-400 text-sm text-center my-4 rounded-lg">
                 <p>New to Keeper? 
-                    <button onClick={()=>props.setActive('register')} className="text-blue-500 hover:text-blue-600 hover:underline">Create Account here</button>
+                    <button onClick={()=>activeContext.setActive('register')} className="text-blue-500 hover:text-blue-600 hover:underline">Create Account here</button>
                 </p>
             </div>
         </div>

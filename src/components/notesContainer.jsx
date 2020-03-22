@@ -7,7 +7,9 @@ const axios = require('axios');
 
 let notesConainterStyle = {
         columnCount: 4,
-        columnGap: "1rem"
+        columnGap: "1rem",
+        columnFill : "balanced",
+        columnSpan: "all"
 }
 
 export default function NotesContainer(){
@@ -72,12 +74,16 @@ export default function NotesContainer(){
         }
 
     }
-
+    const notesRef =[];
     return(
         <div className="my-8">
             <AddNote onAdd={handleAddNote}/>
-            <div className="my-8 flex items-start flex-wrap">
-                {notesList.slice(0).reverse().map((note,index) => (<NoteItem key={index} id={authContext.token ? note._id : index} title={note.title} content={note.content} onDelete={handleOnDelete}/>) )}
+            <div className="my-8 p-4 w-full ">
+                {notesList.slice(0).reverse().map((note,index) => {
+                    const noteRef = React.createRef();
+                    notesRef.push(noteRef);
+                    <NoteItem key={index} id={authContext.token ? note._id : index} title={note.title} content={note.content} onDelete={handleOnDelete} ref={notesRef[index]}/>
+                })}
             </div>
         </div>
     );

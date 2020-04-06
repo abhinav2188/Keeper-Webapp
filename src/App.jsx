@@ -1,13 +1,13 @@
 import React from 'react';
 import Header from './components/header.jsx';
 import Footer from './components/footer.jsx';
-// import {DefaultNotesContainer,UserNotesContainer} from './components/notesContainer.jsx';
 import NotesContainer from "./components/notesContainer.jsx";
-import Register from './components/register.jsx';
-import Login from './components/login.jsx';
-// import {loginService,registerService} from './components/services/logServices';
+import Register from './components/Logs/register.jsx';
+import Login from './components/Logs/login.jsx';
 import ActiveContext from "./context/activeContext";
 import AuthContext from "./context/authContext";
+import withAlert from "./HOC/withAlert";
+import AlertContext from "./context/alertContext";
 
 const axios = require('axios');
 
@@ -15,12 +15,11 @@ let customStyle = {
     fontFamily : " 'Quicksand', serif",
 }
 
-export default function App(){
+const App = () => {
     const [activeTab,setActiveTab] = React.useState('home');
     const [token, setToken] = React.useState(window.sessionStorage.getItem("userId"));
-    console.log("window",window.sessionStorage.getItem("userId"));
-    console.log("token",token);
- 
+    const alertContext = React.useContext(AlertContext);
+
     function loginService(user){
         const params = new URLSearchParams();
         params.append('email',user.email);
@@ -36,10 +35,18 @@ export default function App(){
             window.sessionStorage.setItem('userId',uid);
             setToken(uid);
             setActiveTab('home');
-            alert(response.data.msg);
+            alertContext.setAlert({
+                show:true,
+                msg:"logged in with "+user.email,
+                type:"success"
+            });          
         })
         .catch(function (error) {
-            alert(error.response.data.errorMsg);
+            alertContext.setAlert({
+                show:true,
+                msg:error.response.data.errorMsg,
+                type:"failure"
+            });          
         });
     }
     
@@ -60,24 +67,34 @@ export default function App(){
             window.sessionStorage.setItem('userId',uid);
             setToken(uid);
             setActiveTab('home');
-            alert(response.data.msg);
+            alertContext.setAlert({
+                show:true,
+                msg:response.data.msg,
+                type:"success"
+            });          
         })
         .catch(function (error) {
-            alert(error.response.data.errorMsg);
+            alertContext.setAlert({
+                show:true,
+                msg:error.response.data.errorMsg,
+                type:"failure"
+            });          
         });
     }
 
     return(
-        <div className="flex flex-col min-h-screen" style={customStyle}>
+        <div className="flex flex-col min-h-screen overflow-x-hidden" style={customStyle}>
         <ActiveContext.Provider value={{active:activeTab , setActive : setActiveTab}}>
-        <AuthContext.Provider value={{token:token,setToken:setToken}}  >  
+        <AuthContext.Provider value={{token:token,setToken:setToken}}>
+
             <Header/>
             
+            {/* <Alert show={showMsg} type="success">{msg}</Alert> */}
             <div className="flex-grow">
 
-            {activeTab=="home" && <NotesContainer /> }
-            {activeTab=="register" && <Register onRegister={registerService}/> }
-            {activeTab=="login" && <Login onLogin={loginService}/> }
+            {activeTab==="home" && <NotesContainer /> }
+            {activeTab==="register" && <Register onRegister={registerService}/> }
+            {activeTab==="login" && <Login onLogin={loginService}/> }
 
             </div>
         </AuthContext.Provider>
@@ -87,3 +104,5 @@ export default function App(){
         </div>
         );
 }
+
+export default withAlert(App);

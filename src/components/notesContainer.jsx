@@ -2,17 +2,18 @@ import React,{useState,useEffect} from 'react';
 import NoteItem from './note.jsx';
 import AddNote from './addNote.jsx';
 import AuthContext from '../context/authContext';
-
+import AlertContext  from '../context/alertContext';
 const axios = require('axios');
 
-let notesConainterStyle = {
-        columnCount: 4,
-        columnGap: "1rem"
-}
+// let notesConainterStyle = {
+//         columnCount: 4,
+//         columnGap: "1rem"
+// }
 
 export default function NotesContainer(){
     const [notesList, setNotesList] = useState([]);
     const authContext = React.useContext(AuthContext);
+    const alertContext = React.useContext(AlertContext);
 
     function fetchNotes(){
         axios.get('http://localhost:5000/notes',{
@@ -20,9 +21,18 @@ export default function NotesContainer(){
                 id : authContext.token
             }
         }).then( (response) => {
+            alertContext.setAlert({
+                show:true,
+                msg:"notes fetched",
+                type:"info"
+            });
             setNotesList(response.data.notes);
         }).catch( (error) => {
-            alert(error.response.data.errorMsg);
+            alertContext.setAlert({
+                show:true,
+                msg:error.response.data.errorMsg,
+                type:"failure"
+            });          
         });
     }
 
@@ -47,9 +57,17 @@ export default function NotesContainer(){
                 },
                 data : noteData
             }).then( (response) => {
-                alert(response.data.msg);
+                alertContext.setAlert({
+                    show:true,
+                    msg:response.data.msg,
+                    type:"success"
+                });          
             }).catch( (error) => {
-                alert(error.response.data.errorMsg);
+                alertContext.setAlert({
+                    show:true,
+                    msg:error.response.data.errorMsg,
+                    type:"failure"
+                });          
             });
     
         }
@@ -65,9 +83,17 @@ export default function NotesContainer(){
                     noteId : id
                 }
             }).then( (response) => {
-                alert(response.data.msg);
+                alertContext.setAlert({
+                    show:true,
+                    msg:response.data.msg,
+                    type:"success"
+                });          
             }).catch( (error) => {
-                alert(error.response.data.errorMsg);
+                alertContext.setAlert({
+                    show:true,
+                    msg:error.response.data.errorMsg,
+                    type:"failure"
+                });          
             });
         }
 

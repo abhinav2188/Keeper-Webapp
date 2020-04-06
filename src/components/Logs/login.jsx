@@ -1,6 +1,6 @@
 import React from 'react';
-import Logo from '../assets/logo.svg';
-import ActiveContext from "../context/activeContext";
+import Logo from '../../assets/logo.svg';
+import ActiveContext from "../../context/activeContext";
 
 export default function Login(props){
     let [user, setUser] = React.useState({
@@ -22,7 +22,7 @@ export default function Login(props){
         let name = event.target.name;
         let value = event.target.value;
         setUser( prevState => ({ ...prevState, [name] : value }));
-        if(name=="email") 
+        if(name==="email") 
         setDisplayHint(validateEmail(value));
     }
     function handleSubmit(event){
@@ -32,7 +32,7 @@ export default function Login(props){
     }
     return(
         <div className="my-8 md:px-0 px-2">
-            <img src={Logo} className="mx-auto h-16 md:mt-0 mt-6"></img>
+            <img src={Logo} className="mx-auto h-16 md:mt-0 mt-6" alt=""></img>
             <h1 className="text-center text-2xl md:my-4 mb-6">Login to Keeper</h1>
             <form className="flex flex-col max-w-sm mx-auto border shadow-lg rounded-lg p-6 my-4 text-sm bg-white md:my-0 my-6" onSubmit={handleSubmit}>
                 <label for="email" className="mb-1 required">Email address</label>

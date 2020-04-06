@@ -1,7 +1,6 @@
 import React from 'react';
-import Logo from '../assets/logo.svg';
-import ActiveContext from "../context/activeContext";
-import authContext from '../context/authContext';
+import Logo from '../../assets/logo.svg';
+import ActiveContext from "../../context/activeContext";
 
 export default function Register(props){
     const activeContext = React.useContext(ActiveContext);
@@ -38,7 +37,7 @@ export default function Register(props){
         err.push("password should contain atleast one digit");
         if(!/[A-Z]/.test(value))
         err.push("password should contain atleast one capital letter");
-        if(!/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(value))
+        if(! /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(value))
         err.push("password should contain atleast one special character");
         if(value.length<8)
         err.push("password should be of atleast 8 characters");
@@ -70,7 +69,7 @@ export default function Register(props){
     return(
         <div className="my-8 flex md:flex-row flex-col md:w-2/3 mx-auto items-center">
         <div className="md:w-1/2 flex flex-col items-center md:px-16 px-2 md:my-0 my-6">
-            <img src={Logo} className="mx-auto h-24"></img>
+            <img src={Logo} className="mx-auto h-24" alt=""></img>
             <h1 className="text-4xl my-4">Keeper</h1>
             <p className="text-center ">Keeper is an simple, secure, online notes keeping app.
             Keep your notes online, reach out to them anytime.</p>

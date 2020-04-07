@@ -21,11 +21,6 @@ export default function NotesContainer(){
                 id : authContext.token
             }
         }).then( (response) => {
-            alertContext.setAlert({
-                show:true,
-                msg:"notes fetched",
-                type:"info"
-            });
             setNotesList(response.data.notes);
         }).catch( (error) => {
             alertContext.setAlert({

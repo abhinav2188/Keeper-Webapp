@@ -1,15 +1,49 @@
 import React,{useState} from 'react';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import AuthContext from '../../context/authContext';
+import ActiveContext from "../../context/activeContext";
+import AuthContext from "../../context/authContext";
+import AlertContext from "../../context/alertContext";
+import axios from "axios";
 
 export default function LoggedIn(props){
+    const activeContext = React.useContext(ActiveContext);
     const authContext = React.useContext(AuthContext);
+    const alertContext = React.useContext(AlertContext);
     const [isExpanded,setExpanded] = useState(false);
+
+    function logoutService(){
+        const params = new URLSearchParams();
+        params.append('id',authContext.token);
+        axios({
+            method: 'POST',
+            url: 'http://localhost:5000/logout',
+            data: params,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+        .then(function (response) {
+            window.sessionStorage.removeItem("userId");
+            authContext.setToken(null);
+            activeContext.setActive('login');
+            alertContext.setAlert({
+                show:true,
+                msg:"logged out",
+                type:"info"
+            });          
+        })
+        .catch(function (error) {
+            alertContext.setAlert({
+                show:true,
+                msg:error.response.data.errorMsg,
+                type:"failure"
+            });          
+        });
+    }
+
     function logout(event){
         event.preventDefault();
-        authContext.setToken(null);
-        window.sessionStorage.removeItem("userId");
+        logoutService();
     }
+
     return(
         <div className={`flex items-center
         transform ${isExpanded?'translate-x-0':'translate-x-full mr-8'} transition-all duration-500 ease-out`}>

@@ -20,68 +20,6 @@ const App = () => {
     const [token, setToken] = React.useState(window.sessionStorage.getItem("userId"));
     const alertContext = React.useContext(AlertContext);
 
-    function loginService(user){
-        const params = new URLSearchParams();
-        params.append('email',user.email);
-        params.append('password',user.password);
-        axios({
-            method: 'POST',
-            url: 'http://localhost:5000/login',
-            data: params,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded' }
-        })
-        .then(function (response) {
-            let uid = response.data.userId;
-            window.sessionStorage.setItem('userId',uid);
-            setToken(uid);
-            setActiveTab('home');
-            alertContext.setAlert({
-                show:true,
-                msg:"logged in with "+user.email,
-                type:"success"
-            });          
-        })
-        .catch(function (error) {
-            alertContext.setAlert({
-                show:true,
-                msg:error.response.data.errorMsg,
-                type:"failure"
-            });          
-        });
-    }
-    
-    function registerService(user){
-        const params = new URLSearchParams();
-        params.append('email',user.email);
-        params.append('username',user.username);    
-        params.append('password',user.password);
-    
-        axios({
-            method: 'POST',
-            url: 'http://localhost:5000/register',
-            data: params,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded' }
-        })
-        .then(function (response) {
-            let uid = response.data.userId;
-            window.sessionStorage.setItem('userId',uid);
-            setToken(uid);
-            setActiveTab('home');
-            alertContext.setAlert({
-                show:true,
-                msg:response.data.msg,
-                type:"success"
-            });          
-        })
-        .catch(function (error) {
-            alertContext.setAlert({
-                show:true,
-                msg:error.response.data.errorMsg,
-                type:"failure"
-            });          
-        });
-    }
-
     return(
         <div className="flex flex-col min-h-screen overflow-x-hidden" style={customStyle}>
         <ActiveContext.Provider value={{active:activeTab , setActive : setActiveTab}}>
@@ -93,8 +31,8 @@ const App = () => {
             <div className="flex-grow">
 
             {activeTab==="home" && <NotesContainer /> }
-            {activeTab==="register" && <Register onRegister={registerService}/> }
-            {activeTab==="login" && <Login onLogin={loginService}/> }
+            {activeTab==="register" && <Register/> }
+            {activeTab==="login" && <Login/> }
 
             </div>
         </AuthContext.Provider>

@@ -2,12 +2,15 @@ import React from 'react';
 import LoggedIn from './loggedIn.jsx';
 import ActiveContext from "../../context/activeContext";
 import AuthContext from "../../context/authContext";
+import AlertContext from "../../context/alertContext";
 import axios from 'axios';
 
 export default function LogComponent(){
 
   const activeContext = React.useContext(ActiveContext);
   const authContext = React.useContext(AuthContext);
+  const alertContext = React.useContext(AlertContext);
+
   const [userDetails, setUserDetails] = React.useState({
     name : "",
     email : "",
@@ -22,12 +25,15 @@ export default function LogComponent(){
           }
       })
       .then(function (response) {
-          console.log(response.data.user);
           setUserDetails(response.data.user);
       })
       .catch(function (error) {
-          console.log(error.response.data.errorMsg);
-      });
+        alertContext.setAlert({
+          show:true,
+          msg:error.response.data.errorMsg,
+          type:"failure"
+      });          
+});
   }
 
   React.useEffect(()=>{

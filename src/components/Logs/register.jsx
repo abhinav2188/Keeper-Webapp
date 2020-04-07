@@ -1,9 +1,15 @@
 import React from 'react';
 import Logo from '../../assets/logo.svg';
 import ActiveContext from "../../context/activeContext";
+import AuthContext from "../../context/authContext";
+import AlertContext from "../../context/alertContext";
+import axios from "axios";
 
 export default function Register(props){
     const activeContext = React.useContext(ActiveContext);
+    const authContext = React.useContext(AuthContext);
+    const alertContext = React.useContext(AlertContext);
+
     let [user, setUser] = React.useState({
         email:"",
         password:"",
@@ -11,6 +17,39 @@ export default function Register(props){
         confirmPassword:"",
     });
     let [displayHint,setDisplayHint] = React.useState([]);
+
+    function registerService(){
+        const params = new URLSearchParams();
+        params.append('email',user.email);
+        params.append('username',user.username);    
+        params.append('password',user.password);
+    
+        axios({
+            method: 'POST',
+            url: 'http://localhost:5000/register',
+            data: params,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+        .then(function (response) {
+            let uid = response.data.userId;
+            window.sessionStorage.setItem('userId',uid);
+            authContext.setToken(uid);
+            activeContext.setActive('home');
+            alertContext.setAlert({
+                show:true,
+                msg:"user registered",
+                type:"success"
+            });          
+        })
+        .catch(function (error) {
+            alertContext.setAlert({
+                show:true,
+                msg:error.response.data.errorMsg,
+                type:"failure"
+            });          
+        });
+    }
+
     function validateUsername(value){
         let err=[];
         let usernameExp = /[a-zA-Z0-9]+/;
@@ -61,9 +100,13 @@ export default function Register(props){
     function handleSubmit(event){
         event.preventDefault();
         if(validateEmail(user.email).length>0||validateUsername(user.username).length>0||validatePassword(user.password).length>0||validateConfirmPassword(user.confirmPassword).length>0){
-            alert('Error in the filled values');
+            alertContext.setAlert({
+                msg:'Error in the filled values',
+                show:true,
+                type:"failure"
+            });
         }else
-        props.onRegister(user);
+        registerService();
     }
 
     return(

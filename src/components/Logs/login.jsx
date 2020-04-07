@@ -1,14 +1,52 @@
 import React from 'react';
 import Logo from '../../assets/logo.svg';
 import ActiveContext from "../../context/activeContext";
+import AuthContext from "../../context/authContext";
+import AlertContext from "../../context/alertContext";
+import axios from "axios";
 
 export default function Login(props){
+    
     let [user, setUser] = React.useState({
         email:"",
         password:""
     });
     let [displayHint,setDisplayHint] = React.useState([]);
     const activeContext = React.useContext(ActiveContext);
+    const authContext = React.useContext(AuthContext);
+    const alertContext = React.useContext(AlertContext);
+
+    function loginService(){
+        const params = new URLSearchParams();
+        params.append('email',user.email);
+        params.append('password',user.password);
+        axios({
+            method: 'POST',
+            url: 'http://localhost:5000/login',
+            data: params,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+        .then(function (response) {
+            let uid = response.data.userId;
+            window.sessionStorage.setItem('userId',uid);
+            authContext.setToken(uid);
+            activeContext.setActive('home');
+            alertContext.setAlert({
+                show:true,
+                msg:"logged in with "+user.email,
+                type:"success"
+            });          
+        })
+        .catch(function (error) {
+            alertContext.setAlert({
+                show:true,
+                msg:error.response.data.errorMsg,
+                type:"failure"
+            });          
+        });
+    }
+
+
     function validateEmail(value){
         let err=[];
         let emailExp = /[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+/;
@@ -27,9 +65,9 @@ export default function Login(props){
     }
     function handleSubmit(event){
         event.preventDefault();
-        console.log('login');
-        props.onLogin(user);
+        loginService();
     }
+    
     return(
         <div className="my-8 md:px-0 px-2">
             <img src={Logo} className="mx-auto h-16 md:mt-0 mt-6" alt=""></img>

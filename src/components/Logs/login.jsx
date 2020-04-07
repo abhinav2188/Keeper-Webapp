@@ -1,9 +1,9 @@
 import React from 'react';
 import Logo from '../../assets/logo.svg';
-import ActiveContext from "../../context/activeContext";
 import AuthContext from "../../context/authContext";
 import AlertContext from "../../context/alertContext";
 import axios from "axios";
+import {useHistory} from 'react-router-dom';
 
 export default function Login(props){
     
@@ -12,7 +12,7 @@ export default function Login(props){
         password:""
     });
     let [displayHint,setDisplayHint] = React.useState([]);
-    const activeContext = React.useContext(ActiveContext);
+    const history = useHistory();
     const authContext = React.useContext(AuthContext);
     const alertContext = React.useContext(AlertContext);
 
@@ -30,7 +30,7 @@ export default function Login(props){
             let uid = response.data.userId;
             window.sessionStorage.setItem('userId',uid);
             authContext.setToken(uid);
-            activeContext.setActive('home');
+            history.push('/');
             alertContext.setAlert({
                 show:true,
                 msg:"logged in with "+user.email,
@@ -85,7 +85,7 @@ export default function Login(props){
             </form>
             <div className="max-w-sm mx-auto p-3 border border-gray-400 text-sm text-center my-4 rounded-lg">
                 <p>New to Keeper? 
-                    <button onClick={()=>activeContext.setActive('register')} className="text-blue-500 hover:text-blue-600 hover:underline">Create Account here</button>
+                    <button onClick={()=>history.push('/register')} className="text-blue-500 hover:text-blue-600 hover:underline">Create Account here</button>
                 </p>
             </div>
         </div>

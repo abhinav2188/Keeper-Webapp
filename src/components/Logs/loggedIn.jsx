@@ -1,15 +1,15 @@
 import React,{useState} from 'react';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import ActiveContext from "../../context/activeContext";
 import AuthContext from "../../context/authContext";
 import AlertContext from "../../context/alertContext";
 import axios from "axios";
+import {useHistory} from "react-router-dom";
 
 export default function LoggedIn(props){
-    const activeContext = React.useContext(ActiveContext);
     const authContext = React.useContext(AuthContext);
     const alertContext = React.useContext(AlertContext);
     const [isExpanded,setExpanded] = useState(false);
+    const history = useHistory();
 
     function logoutService(){
         const params = new URLSearchParams();
@@ -23,7 +23,7 @@ export default function LoggedIn(props){
         .then(function (response) {
             window.sessionStorage.removeItem("userId");
             authContext.setToken(null);
-            activeContext.setActive('login');
+            history.push('/login');
             alertContext.setAlert({
                 show:true,
                 msg:"logged out",

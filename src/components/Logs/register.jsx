@@ -1,14 +1,16 @@
 import React from 'react';
 import Logo from '../../assets/logo.svg';
-import ActiveContext from "../../context/activeContext";
 import AuthContext from "../../context/authContext";
 import AlertContext from "../../context/alertContext";
+import {useHistory} from 'react-router-dom';
+
 import axios from "axios";
 
 export default function Register(props){
-    const activeContext = React.useContext(ActiveContext);
+
     const authContext = React.useContext(AuthContext);
     const alertContext = React.useContext(AlertContext);
+    const history = useHistory();
 
     let [user, setUser] = React.useState({
         email:"",
@@ -34,7 +36,7 @@ export default function Register(props){
             let uid = response.data.userId;
             window.sessionStorage.setItem('userId',uid);
             authContext.setToken(uid);
-            activeContext.setActive('home');
+            history.push('/');
             alertContext.setAlert({
                 show:true,
                 msg:"user registered",
@@ -144,7 +146,7 @@ export default function Register(props){
             </form>
             <div className="max-w-sm mx-auto p-3 border border-gray-400 text-sm text-center my-4 rounded-lg">
                 <p>Already have account? 
-                    <button onClick={()=>activeContext.setActive('login')} className="text-blue-500 hover:text-blue-600 hover:underline">Login here</button>
+                    <button onClick={()=>history.push('/login')} className="text-blue-500 hover:text-blue-600 hover:underline">Login here</button>
                 </p>
             </div>
 

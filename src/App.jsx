@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './components/header.jsx';
 import Footer from './components/footer.jsx';
-import NotesContainer from "./components/notesContainer.jsx";
+import Notes from "./components/notes.jsx";
 import Register from './components/Logs/register.jsx';
 import Login from './components/Logs/login.jsx';
 import ActiveContext from "./context/activeContext";
@@ -30,7 +30,7 @@ const App = () => {
             {/* <Alert show={showMsg} type="success">{msg}</Alert> */}
             <div className="flex-grow">
 
-            {activeTab==="home" && <NotesContainer /> }
+            {activeTab==="home" && <Notes /> }
             {activeTab==="register" && <Register/> }
             {activeTab==="login" && <Login/> }
 

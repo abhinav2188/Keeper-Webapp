@@ -1,10 +1,17 @@
 import React from 'react';
-import Logo from '../assets/logo.svg';
-import ActiveContext from "../context/activeContext";
-import authContext from '../context/authContext';
+import Logo from '../../assets/logo.svg';
+import AuthContext from "../../context/authContext";
+import AlertContext from "../../context/alertContext";
+import {useHistory} from 'react-router-dom';
+
+import axios from "axios";
 
 export default function Register(props){
-    const activeContext = React.useContext(ActiveContext);
+
+    const authContext = React.useContext(AuthContext);
+    const alertContext = React.useContext(AlertContext);
+    const history = useHistory();
+
     let [user, setUser] = React.useState({
         email:"",
         password:"",
@@ -12,6 +19,39 @@ export default function Register(props){
         confirmPassword:"",
     });
     let [displayHint,setDisplayHint] = React.useState([]);
+
+    function registerService(){
+        const params = new URLSearchParams();
+        params.append('email',user.email);
+        params.append('username',user.username);    
+        params.append('password',user.password);
+    
+        axios({
+            method: 'POST',
+            url: 'http://localhost:5000/register',
+            data: params,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+        .then(function (response) {
+            let uid = response.data.userId;
+            window.sessionStorage.setItem('userId',uid);
+            authContext.setToken(uid);
+            history.push('/');
+            alertContext.setAlert({
+                show:true,
+                msg:"user registered",
+                type:"success"
+            });          
+        })
+        .catch(function (error) {
+            alertContext.setAlert({
+                show:true,
+                msg:error.response.data.errorMsg,
+                type:"failure"
+            });          
+        });
+    }
+
     function validateUsername(value){
         let err=[];
         let usernameExp = /[a-zA-Z0-9]+/;
@@ -38,7 +78,7 @@ export default function Register(props){
         err.push("password should contain atleast one digit");
         if(!/[A-Z]/.test(value))
         err.push("password should contain atleast one capital letter");
-        if(!/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(value))
+        if(! /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(value))
         err.push("password should contain atleast one special character");
         if(value.length<8)
         err.push("password should be of atleast 8 characters");
@@ -62,15 +102,19 @@ export default function Register(props){
     function handleSubmit(event){
         event.preventDefault();
         if(validateEmail(user.email).length>0||validateUsername(user.username).length>0||validatePassword(user.password).length>0||validateConfirmPassword(user.confirmPassword).length>0){
-            alert('Error in the filled values');
+            alertContext.setAlert({
+                msg:'Error in the filled values',
+                show:true,
+                type:"failure"
+            });
         }else
-        props.onRegister(user);
+        registerService();
     }
 
     return(
         <div className="my-8 flex md:flex-row flex-col md:w-2/3 mx-auto items-center">
         <div className="md:w-1/2 flex flex-col items-center md:px-16 px-2 md:my-0 my-6">
-            <img src={Logo} className="mx-auto h-24"></img>
+            <img src={Logo} className="mx-auto h-24" alt=""></img>
             <h1 className="text-4xl my-4">Keeper</h1>
             <p className="text-center ">Keeper is an simple, secure, online notes keeping app.
             Keep your notes online, reach out to them anytime.</p>
@@ -102,7 +146,7 @@ export default function Register(props){
             </form>
             <div className="max-w-sm mx-auto p-3 border border-gray-400 text-sm text-center my-4 rounded-lg">
                 <p>Already have account? 
-                    <button onClick={()=>activeContext.setActive('login')} className="text-blue-500 hover:text-blue-600 hover:underline">Login here</button>
+                    <button onClick={()=>history.push('/login')} className="text-blue-500 hover:text-blue-600 hover:underline">Login here</button>
                 </p>
             </div>
 

@@ -128,23 +128,23 @@ export default function Register(props){
             <h1 className="text-center text-2xl my-4">Sign up to Keeper</h1>
             <form className="flex flex-col max-w-sm mx-auto border shadow-lg rounded-lg p-6 my-4 text-sm bg-white" onSubmit={handleSubmit}>
 
-                <label for="email" className="mb-1 required">Email address</label>
+                <label htmlFor="email" className="mb-1 required">Email address</label>
                 <input className="border rounded-sm p-1 mb-4" type="email" name="email" value={user.email} 
                 onChange={handleChange}/>
                 
-                <label for="username" className="mb-1 required">Username</label>
+                <label htmlFor="username" className="mb-1 required">Username</label>
                 <input className="border rounded-sm p-1 mb-4" type="text"name="username" value={user.username} 
                 onChange={handleChange}/>
                 
-                <label for="password" className="mb-1 required">Password</label>
+                <label htmlFor="password" className="mb-1 required">Password</label>
                 <input className="border p-1 rounded-sm mb-4" type="password" name="password" value={user.password} 
                 onChange={handleChange}/>
 
-                <label className="mb-1 required">Confirm password</label>
+                <label htmlFor="confirmPassword" className="mb-1 required">Confirm password</label>
                 <input className="border rounded-sm p-1 mb-4" type="password" name="confirmPassword" value={user.confirmPassword} 
                 onChange={handleChange}/>
                 
-                {displayHint.map( hint => <p className="text-red-600 font-bold text-xs px-2">{hint}</p>)}
+                {displayHint.map( (hint,index) => <p key={index} className="text-red-600 font-bold text-xs px-2">{hint}</p>)}
 
                 <button className="mt-4 p-1 text-white border border-gray-600 bg-green-500 hover:shadow-md hover:bg-green-600 rounded-sm" type="submit" 
                 onClick={handleSubmit}>Create Account</button>

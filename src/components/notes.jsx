@@ -48,8 +48,8 @@ export default function NotesContainer(){
 
     function handleAddNote(newNote){
         setNotesList(prevList => ([...prevList,newNote]) );
-        loadingContext.setIsLoading(true);    
         if(authContext.token){
+            loadingContext.setIsLoading(true);    
             let noteData = new URLSearchParams();
             noteData.append('content',newNote.content);
             noteData.append('title',newNote.title);
@@ -92,9 +92,9 @@ export default function NotesContainer(){
 
     }
     function handleOnDelete(id){
-        loadingContext.setIsLoading(true);    
         setNotesList(prevList => ( prevList.filter( (note,index) => (index !== id))) );
         if(authContext.token){
+            loadingContext.setIsLoading(true);    
             setNotesList(prevList => ( prevList.filter( note => (note._id !== id))) );
             axios.delete('http://localhost:5000/deleteNote',{
                 params : {

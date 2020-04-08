@@ -18,7 +18,6 @@ export default function LogComponent(){
   });
 
   function getUserDetails(id){
-      console.log("getUserDetails()"+id);
       axios.get('http://localhost:5000/user',{
           params : {
               id : id

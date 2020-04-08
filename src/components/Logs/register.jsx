@@ -3,6 +3,7 @@ import Logo from '../../assets/logo.svg';
 import AuthContext from "../../context/authContext";
 import AlertContext from "../../context/alertContext";
 import {useHistory} from 'react-router-dom';
+import LoadingContext from "../../context/loadingContext";
 
 import axios from "axios";
 
@@ -10,6 +11,7 @@ export default function Register(props){
 
     const authContext = React.useContext(AuthContext);
     const alertContext = React.useContext(AlertContext);
+    const loadingContext = React.useContext(LoadingContext);
     const history = useHistory();
 
     let [user, setUser] = React.useState({
@@ -21,6 +23,7 @@ export default function Register(props){
     let [displayHint,setDisplayHint] = React.useState([]);
 
     function registerService(){
+        loadingContext.setIsLoading(true);
         const params = new URLSearchParams();
         params.append('email',user.email);
         params.append('username',user.username);    
@@ -36,6 +39,7 @@ export default function Register(props){
             let uid = response.data.userId;
             window.sessionStorage.setItem('userId',uid);
             authContext.setToken(uid);
+            loadingContext.setIsLoading(false);
             history.push('/');
             alertContext.setAlert({
                 show:true,
@@ -44,6 +48,7 @@ export default function Register(props){
             });          
         })
         .catch(function (error) {
+            loadingContext.setIsLoading(false);
             alertContext.setAlert({
                 show:true,
                 msg:error.response.data.errorMsg,

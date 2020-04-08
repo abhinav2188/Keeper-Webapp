@@ -1,0 +1,14 @@
+.spin{
+    animation-name: sp;
+    animation-timing-function: ease-in-out;
+    animation-duration:1s;
+    animation-iteration-count: infinite;
+}
+@keyframes sp{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}

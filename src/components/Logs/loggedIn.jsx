@@ -4,12 +4,27 @@ import AuthContext from "../../context/authContext";
 import AlertContext from "../../context/alertContext";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
+import ConfirmContext from "../../context/confirmContext";
 
 export default function LoggedIn(props){
     const authContext = React.useContext(AuthContext);
     const alertContext = React.useContext(AlertContext);
     const [isExpanded,setExpanded] = useState(false);
+    const confirmContext = React.useContext(ConfirmContext);
     const history = useHistory();
+
+    const confirmLogout = () => {
+        confirmContext.setConfirm({
+            show:true,
+            msg:"Confirm to continue logout",
+            onConfirm: () => {logoutService(); confirmContext.setConfirm({show:false}) },
+            onCancel : () => {
+                confirmContext.setConfirm({
+                    show:false
+                });
+            } 
+        });
+    }
 
     function logoutService(){
         const params = new URLSearchParams();
@@ -41,7 +56,7 @@ export default function LoggedIn(props){
 
     function logout(event){
         event.preventDefault();
-        logoutService();
+        confirmLogout();
     }
 
     return(

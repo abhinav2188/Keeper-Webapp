@@ -4,6 +4,7 @@ import AuthContext from "../../context/authContext";
 import AlertContext from "../../context/alertContext";
 import axios from "axios";
 import {useHistory} from 'react-router-dom';
+import LoadingContext from "../../context/loadingContext";
 
 export default function Login(props){
     
@@ -15,8 +16,10 @@ export default function Login(props){
     const history = useHistory();
     const authContext = React.useContext(AuthContext);
     const alertContext = React.useContext(AlertContext);
+    const loadingContext = React.useContext(LoadingContext);
 
     function loginService(){
+        loadingContext.setIsLoading(true);
         const params = new URLSearchParams();
         params.append('email',user.email);
         params.append('password',user.password);
@@ -31,6 +34,7 @@ export default function Login(props){
             window.sessionStorage.setItem('userId',uid);
             authContext.setToken(uid);
             history.push('/');
+            loadingContext.setIsLoading(false);
             alertContext.setAlert({
                 show:true,
                 msg:"logged in with "+user.email,
@@ -38,6 +42,7 @@ export default function Login(props){
             });          
         })
         .catch(function (error) {
+            loadingContext.setIsLoading(false);
             alertContext.setAlert({
                 show:true,
                 msg:error.response.data.errorMsg,

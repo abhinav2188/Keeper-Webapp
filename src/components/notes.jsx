@@ -3,6 +3,9 @@ import NoteItem from './note.jsx';
 import AddNote from './addNote.jsx';
 import AuthContext from '../context/authContext';
 import AlertContext  from '../context/alertContext';
+import LoadingContext from "../context/loadingContext";
+import ConfirmContext from "../context/confirmContext";
+
 const axios = require('axios');
 
 // let notesConainterStyle = {
@@ -14,15 +17,20 @@ export default function NotesContainer(){
     const [notesList, setNotesList] = useState([]);
     const authContext = React.useContext(AuthContext);
     const alertContext = React.useContext(AlertContext);
+    const loadingContext = React.useContext(LoadingContext);
+    const confirmContext = React.useContext(ConfirmContext);
 
     function fetchNotes(){
+        loadingContext.setIsLoading(true);    
         axios.get('http://localhost:5000/notes',{
             params : {
                 id : authContext.token
             }
         }).then( (response) => {
+            loadingContext.setIsLoading(false);    
             setNotesList(response.data.notes);
         }).catch( (error) => {
+            loadingContext.setIsLoading(false);    
             alertContext.setAlert({
                 show:true,
                 msg:error.response.data.errorMsg,
@@ -40,6 +48,7 @@ export default function NotesContainer(){
 
     function handleAddNote(newNote){
         setNotesList(prevList => ([...prevList,newNote]) );
+        loadingContext.setIsLoading(true);    
         if(authContext.token){
             let noteData = new URLSearchParams();
             noteData.append('content',newNote.content);
@@ -52,12 +61,14 @@ export default function NotesContainer(){
                 },
                 data : noteData
             }).then( (response) => {
+                loadingContext.setIsLoading(false);    
                 alertContext.setAlert({
                     show:true,
                     msg:response.data.msg,
                     type:"success"
                 });          
             }).catch( (error) => {
+                loadingContext.setIsLoading(false);    
                 alertContext.setAlert({
                     show:true,
                     msg:error.response.data.errorMsg,
@@ -67,8 +78,21 @@ export default function NotesContainer(){
     
         }
     }
+    const confirmOnDelete = (id) => {
+        confirmContext.setConfirm({
+            show:true,
+            msg:"this note will be deleted, click on confirm to continue",
+            onConfirm: () => {handleOnDelete(id); confirmContext.setConfirm({show:false}) },
+            onCancel : () => {
+                confirmContext.setConfirm({
+                    show:false
+                });
+            } 
+        });
+
+    }
     function handleOnDelete(id){
-        console.log('delete',id);
+        loadingContext.setIsLoading(true);    
         setNotesList(prevList => ( prevList.filter( (note,index) => (index !== id))) );
         if(authContext.token){
             setNotesList(prevList => ( prevList.filter( note => (note._id !== id))) );
@@ -78,12 +102,14 @@ export default function NotesContainer(){
                     noteId : id
                 }
             }).then( (response) => {
+                loadingContext.setIsLoading(false);    
                 alertContext.setAlert({
                     show:true,
                     msg:response.data.msg,
                     type:"success"
                 });          
             }).catch( (error) => {
+                loadingContext.setIsLoading(false);    
                 alertContext.setAlert({
                     show:true,
                     msg:error.response.data.errorMsg,
@@ -98,7 +124,7 @@ export default function NotesContainer(){
         <div className="my-8">
             <AddNote onAdd={handleAddNote}/>
             <div className="my-8 flex items-start flex-wrap">
-                {notesList.slice(0).reverse().map((note,index) => (<NoteItem key={index} id={authContext.token ? note._id : index} title={note.title} content={note.content} onDelete={handleOnDelete}/>) )}
+                {notesList.slice(0).reverse().map((note,index) => (<NoteItem key={index} id={authContext.token ? note._id : index} title={note.title} content={note.content} onDelete={confirmOnDelete}/>) )}
             </div>
         </div>
     );

@@ -47,7 +47,6 @@ export default function NotesContainer(){
     },[authContext.token]);
 
     function handleAddNote(newNote){
-        setNotesList(prevList => ([...prevList,newNote]) );
         if(authContext.token){
             loadingContext.setIsLoading(true);    
             let noteData = new URLSearchParams();
@@ -66,7 +65,8 @@ export default function NotesContainer(){
                     show:true,
                     msg:response.data.msg,
                     type:"success"
-                });          
+                });
+                fetchNotes();          
             }).catch( (error) => {
                 loadingContext.setIsLoading(false);    
                 alertContext.setAlert({
@@ -75,7 +75,9 @@ export default function NotesContainer(){
                     type:"failure"
                 });          
             });
-    
+        }
+        else{
+            setNotesList(prevList => ([...prevList,newNote]) );
         }
     }
     const confirmOnDelete = (id) => {
@@ -92,10 +94,8 @@ export default function NotesContainer(){
 
     }
     function handleOnDelete(id){
-        setNotesList(prevList => ( prevList.filter( (note,index) => (index !== id))) );
         if(authContext.token){
             loadingContext.setIsLoading(true);    
-            setNotesList(prevList => ( prevList.filter( note => (note._id !== id))) );
             axios.delete('http://localhost:5000/deleteNote',{
                 params : {
                     userId : authContext.token,
@@ -108,6 +108,7 @@ export default function NotesContainer(){
                     msg:response.data.msg,
                     type:"success"
                 });          
+                fetchNotes();
             }).catch( (error) => {
                 loadingContext.setIsLoading(false);    
                 alertContext.setAlert({
@@ -116,6 +117,9 @@ export default function NotesContainer(){
                     type:"failure"
                 });          
             });
+        }
+        else{
+            setNotesList(prevList => ( prevList.filter( (note,index) => (index !== id))) );
         }
 
     }

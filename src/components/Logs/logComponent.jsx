@@ -46,8 +46,8 @@ export default function LogComponent(){
         userDetails ? 
         <LoggedIn name={userDetails.username} avatarUrl="https://picsum.photos/200"/> :
         <div className="text-sm text-white">
-          <Link exact to="/login" className={`mx-2 p-1 ${location.pathname==="/login"?"border-b border-white":""} `} >Login</Link>
-          <Link exact to="/register" className={`mx-2 p-1 ${location.pathname==="/register"?"border-b border-white":""}`} >Register</Link>
+          <Link exact to="/login" className={`mx-2 p-1 ${location.pathname==="/login"?"border-b-2 rounded-sm border-white":""} `} >Login</Link>
+          <Link exact to="/register" className={`mx-2 p-1 ${location.pathname==="/register"?"border-b-2 rounded-sm border-white":""}`} >Register</Link>
         </div>
     );
 }

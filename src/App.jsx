@@ -17,7 +17,7 @@ const App = () => {
 
     return(
         <BrowserRouter>
-        <div className="flex flex-col min-h-screen overflow-x-hidden" style={customStyle}>
+        <div className="flex flex-col min-h-screen overflow-x-hidden md:text-base text-sm" style={customStyle}>
         <AuthContext.Provider value={{token:token,setToken:setToken}}>
                 <Header/>
                 <div className="flex-grow">

@@ -62,7 +62,7 @@ export default function LoggedIn(props){
     return(
         <div className={`flex items-center
         transform ${isExpanded?'translate-x-0':'translate-x-full mr-8'} transition-all duration-500 ease-out`}>
-            <img className="w-8 h-8 m-1 rounded-full border border-black hover:w-10 hover:h-10 transition-all duration-100 ease-out"
+            <img className="md:w-8 md:h-8 h-6 w-6 m-1 rounded-full border border-black hover:w-10 hover:h-10 transition-all duration-100 ease-out"
                  src={props.avatarUrl}
                  alt=""
                  onClick={() => setExpanded(prevState => !prevState)}

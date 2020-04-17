@@ -10429,12 +10429,20 @@ video {
   color: #702459;
 }
 
+.text-3xs {
+  font-size: .5rem;
+}
+
+.text-2xs {
+  font-size: .625rem;
+}
+
 .text-xs {
-  font-size: 0.75rem;
+  font-size: .75rem;
 }
 
 .text-sm {
-  font-size: 0.875rem;
+  font-size: .875rem;
 }
 
 .text-base {
@@ -23145,12 +23153,20 @@ body{
     color: #702459;
   }
 
+  .sm\:text-3xs {
+    font-size: .5rem;
+  }
+
+  .sm\:text-2xs {
+    font-size: .625rem;
+  }
+
   .sm\:text-xs {
-    font-size: 0.75rem;
+    font-size: .75rem;
   }
 
   .sm\:text-sm {
-    font-size: 0.875rem;
+    font-size: .875rem;
   }
 
   .sm\:text-base {
@@ -35853,12 +35869,20 @@ body{
     color: #702459;
   }
 
+  .md\:text-3xs {
+    font-size: .5rem;
+  }
+
+  .md\:text-2xs {
+    font-size: .625rem;
+  }
+
   .md\:text-xs {
-    font-size: 0.75rem;
+    font-size: .75rem;
   }
 
   .md\:text-sm {
-    font-size: 0.875rem;
+    font-size: .875rem;
   }
 
   .md\:text-base {
@@ -48561,12 +48585,20 @@ body{
     color: #702459;
   }
 
+  .lg\:text-3xs {
+    font-size: .5rem;
+  }
+
+  .lg\:text-2xs {
+    font-size: .625rem;
+  }
+
   .lg\:text-xs {
-    font-size: 0.75rem;
+    font-size: .75rem;
   }
 
   .lg\:text-sm {
-    font-size: 0.875rem;
+    font-size: .875rem;
   }
 
   .lg\:text-base {
@@ -61269,12 +61301,20 @@ body{
     color: #702459;
   }
 
+  .xl\:text-3xs {
+    font-size: .5rem;
+  }
+
+  .xl\:text-2xs {
+    font-size: .625rem;
+  }
+
   .xl\:text-xs {
-    font-size: 0.75rem;
+    font-size: .75rem;
   }
 
   .xl\:text-sm {
-    font-size: 0.875rem;
+    font-size: .875rem;
   }
 
   .xl\:text-base {

@@ -2,58 +2,66 @@ import React from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 export default function Note(data){
-    let ct = new Date(data.created);
-    let ref = React.createRef();
-    let ht = 0;
-    // React.useEffect(()=>{
-    //     ht = ref.current.clientHeight;
-    //     console.log(ht)
-    //     data.setNotesHt( prevState => ([...prevState,ht]))
-    // },[]);
-    React.useEffect(()=>{
-        ht = ref.current.clientHeight;
-        data.setNotesHt(prevState =>{
-            prevState[data.index] = ht;
-            return prevState;
-        });
-        reposition();
-    },[ref])
-
-    const reposition = () => {
-        console.log(data.notesHt.length);
-        let harr = new Array(data.notesHt);
-
-        console.log(harr[0]);
-
-        let nc=4;
-        let ty= 0;
-        let i = data.index;
-        let row = Math.floor(i/nc);
-        let column = i%nc;
-        console.log("row",row,"column",column);
-        for(let i=0;i<row;i++){
-          let rmax = Math.max(...data.notesHt.slice(nc*i,nc*(i+1)));
-          let cih = rmax - data.notesHt[nc*i+column];
-          
-          ty+=cih;   
-        }
-        ty = -ty;
-        // setNotesTransform(prevState => ([...prevState,ty]))
-
+    let ct = new Date();
+    if(data.created){
+        ct = new Date(data.created);
+    }
+    let created = ct.toLocaleString();
+    let todayDate =  new Date(Date.now()).toLocaleDateString();
+    if(ct.toLocaleDateString() === todayDate){
+        created = ct.toLocaleTimeString();
     }
 
+    // let ref = React.createRef();
+    // let ht = 0;
+    // const [tY,setTY] = React.useState(0);
+
+    // React.useEffect(()=>{
+    //     ht = ref.current.clientHeight;
+    //     data.setNotesHt(prevState =>{
+    //         prevState[data.index] = ht;
+    //         return prevState;
+    //     });
+    // },[ref])
+
+    // const reposition= (nc) => {
+    //     console.log(data.notesHt);
+    //     let htArr = new Array(...data.notesHt);
+    //     data.notesHt.map( ht => console.log(ht));
+    //     console.log(htArr[0]);
+    //     let ty= 0;
+    //     let row = Math.floor(data.index/nc);
+    //     let column = data.index%nc;
+    //     console.log("row",row,"column",column);
+    //     for(let i=0;i<row;i++){
+    //         console.log('inside loop',i);
+    //         console.log(htArr.length);
+    //         console.log(htArr.slice(4*i,4*(i+1)));
+    //       let rmax = Math.max(...data.notesHt.slice(nc*i,nc*(i+1)));
+    //       console.log(...htArr.slice(nc*i,nc*(i+1)));
+    //       let cih = rmax - data.notesHt[nc*i+column];
+    //       ty+=cih;   
+    //     }
+    //     ty = -ty;
+    //     console.log(ty);
+          
+    // }
+
+    
     return(
-        <div className="w-1/4 p-2 inline-block" style={{verticalAlign:"top",transform:"translateY("+data.tY+"px)",}} ref={ref}>
-        <div className="bg-white p-2 shadow-lg rounded w-full">
+        <div className="lg:w-1/4 md:w-1/2 w-full p-2 inline-block " style={{verticalAlign:"top"}} >
+        <div className="bg-white p-2 shadow-lg rounded w-full border-t-4 border-yellow-500 flex flex-col">
+        <span className="text-xs text-yellow-600 bold self-end">{created}</span>
             <h1 className="text-xl p-1">{data.title}</h1>
             <p className="p-1 text-gray-800">{data.content}</p>
-            <div class="flex justify-between items-center">
-                <span class="text-sm text-gray-600 italic">created: {ct.toLocaleString()}</span>
-                <button className="p-1 text-xs self-end hover:text-red-700 text-red-400 font-black" type="button" onClick={()=> data.onDelete(data.id,data.index)}>
+            <button className="p-1 md:text-sm test-xs self-end hover:text-red-700 text-red-400 font-black" type="button" onClick={()=> data.onDelete(data.id,data.index)}>
                     <DeleteIcon />
-                </button>
-            </div>
+            </button>
+            {/* <div class="flex justify-between items-center">
+            </div> */}
         </div>
         </div>
     );
 }
+// ref={ref}
+// transform:"translateY("+data.tY+"px)"

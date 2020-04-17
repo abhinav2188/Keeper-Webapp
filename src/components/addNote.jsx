@@ -20,13 +20,14 @@ export default function AddNote(props){
     }
 
     return(
-        <div className="bg-white rounded-lg shadow-lg mx-auto m-4 p-2 max-w-sm">
+        <div className="md:w-1/3 w-full mx-auto">
+        <div className="bg-white rounded shadow-lg  m-4 p-2 ">
             <form className="w-full h-full flex flex-col relative" 
                   action="#"
                   onSubmit={handleSubmit}
                 >
                 {flag&&
-                    <input className="p-1"
+                    <input className="p-1 focus:outline-none"
                        type="text" 
                        name="title"
                        placeholder="Title" 
@@ -34,13 +35,13 @@ export default function AddNote(props){
                        value={note.title}
                        ></input>
                 }
-                <textarea className="p-1 mb-6" 
+                <textarea className={`p-1 mb-6 focus:outline-none resize-none transition-all duration-500 ease-out`} 
+                        style={{}}
                           type="text"
                           name="content" 
                           placeholder="Take a note.." 
                           onChange={handleChange}
                           value={note.content}
-                          rows={flag?3:1}
                           onClick={() => setFlag(true)}
                           ></textarea>
                 {flag && 
@@ -50,6 +51,7 @@ export default function AddNote(props){
                         ><AddIcon /></button>
                 }
             </form>
+        </div>
         </div>
 
     );

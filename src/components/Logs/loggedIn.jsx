@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AuthContext from "../../context/authContext";
 import AlertContext from "../../context/alertContext";
-import axios from "axios";
+import axios from "../../axios-instance";
 import {useHistory} from "react-router-dom";
 import ConfirmContext from "../../context/confirmContext";
 
@@ -31,7 +31,7 @@ export default function LoggedIn(props){
         params.append('id',authContext.token);
         axios({
             method: 'POST',
-            url: 'http://localhost:5000/logout',
+            url: '/logout',
             data: params,
             headers: {'Content-Type': 'application/x-www-form-urlencoded' }
         })
@@ -62,7 +62,7 @@ export default function LoggedIn(props){
     return(
         <div className={`flex items-center
         transform ${isExpanded?'translate-x-0':'translate-x-full mr-8'} transition-all duration-500 ease-out`}>
-            <img className="md:w-8 md:h-8 h-6 w-6 m-1 rounded-full border border-black hover:w-10 hover:h-10 transition-all duration-100 ease-out"
+            <img className="w-8 h-8 m-1 rounded-full border border-black hover:w-10 hover:h-10 transition-all duration-100 ease-out"
                  src={props.avatarUrl}
                  alt=""
                  onClick={() => setExpanded(prevState => !prevState)}

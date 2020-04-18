@@ -5,7 +5,7 @@ import AlertContext from "../../context/alertContext";
 import {useHistory} from 'react-router-dom';
 import LoadingContext from "../../context/loadingContext";
 
-import axios from "axios";
+import axios from "../../axios-instance";
 
 export default function Register(props){
 
@@ -31,9 +31,8 @@ export default function Register(props){
     
         axios({
             method: 'POST',
-            url: 'http://localhost:5000/register',
+            url: '/register',
             data: params,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded' }
         })
         .then(function (response) {
             let uid = response.data.userId;
@@ -118,13 +117,13 @@ export default function Register(props){
 
     return(
         <div className="my-8 flex md:flex-row flex-col md:w-2/3 mx-auto items-center">
-        <div className="md:w-1/2 flex flex-col items-center md:px-16 px-2 md:my-0 my-6">
+        <div className="md:w-1/2 w-full flex flex-col items-center md:px-16 px-4 md:my-0 my-6">
             <img src={Logo} className="mx-auto h-24" alt=""></img>
             <h1 className="text-4xl my-4">Keeper</h1>
             <p className="text-center ">Keeper is an simple, secure, online notes keeping app.
             Keep your notes online, reach out to them anytime.</p>
         </div>
-        <div className="md:w-1/2 w-full px-2 md:px-0">
+        <div className="md:w-1/2 w-full px-4 md:px-0">
             <h1 className="text-center text-2xl my-4">Sign up to Keeper</h1>
             <form className="flex flex-col max-w-sm mx-auto border shadow-lg rounded-lg p-6 my-4 text-sm bg-white" onSubmit={handleSubmit}>
 

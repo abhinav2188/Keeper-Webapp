@@ -6,7 +6,7 @@ import AlertContext  from '../context/alertContext';
 import LoadingContext from "../context/loadingContext";
 import ConfirmContext from "../context/confirmContext";
 
-const axios = require('axios');
+import axios from "../axios-instance";
 
 // let notesConainterStyle = {
 //         columnCount: 4,
@@ -26,7 +26,7 @@ export default function NotesContainer(){
     
     function fetchNotes(){
         loadingContext.setIsLoading(true);    
-        axios.get('http://localhost:5000/notes',{
+        axios.get('/notes',{
             params : {
                 id : authContext.token
             }
@@ -66,7 +66,7 @@ export default function NotesContainer(){
             noteData.append('title',newNote.title);
             axios({
                 method:'POST',
-                url : 'http://localhost:5000/addnote',
+                url : '/addnote',
                 params : {
                     id: authContext.token
                 },
@@ -108,7 +108,7 @@ export default function NotesContainer(){
     function handleOnDelete(id,index){
         if(authContext.token){
             loadingContext.setIsLoading(true);    
-            axios.delete('http://localhost:5000/deleteNote',{
+            axios.delete('/deleteNote',{
                 params : {
                     userId : authContext.token,
                     noteId : id

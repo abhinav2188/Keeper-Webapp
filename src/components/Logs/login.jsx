@@ -2,7 +2,7 @@ import React from 'react';
 import Logo from '../../assets/logo.svg';
 import AuthContext from "../../context/authContext";
 import AlertContext from "../../context/alertContext";
-import axios from "axios";
+import axios from "../../axios-instance";
 import {useHistory} from 'react-router-dom';
 import LoadingContext from "../../context/loadingContext";
 
@@ -25,9 +25,8 @@ export default function Login(props){
         params.append('password',user.password);
         axios({
             method: 'POST',
-            url: 'http://localhost:5000/login',
+            url: '/login',
             data: params,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded' }
         })
         .then(function (response) {
             let uid = response.data.userId;
@@ -74,7 +73,7 @@ export default function Login(props){
     }
     
     return(
-        <div className="my-8 md:px-0 px-2">
+        <div className="my-8 md:px-0 px-4">
             <img src={Logo} className="mx-auto h-16 md:mt-0 mt-6" alt=""></img>
             <h1 className="text-center text-2xl md:my-4 mb-6">Login to Keeper</h1>
             <form className="flex flex-col max-w-sm mx-auto border shadow-lg rounded-lg p-6 my-4 text-sm bg-white md:my-0 my-6" onSubmit={handleSubmit}>
